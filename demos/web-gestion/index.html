@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Sistema de Gestión Empresarial | RS SOLUTION</title>
+    <link rel="stylesheet" href="../demo-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .dashboard {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background-color: #f8fafc;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .stat-card h3 {
+            font-size: 0.875rem;
+            color: var(--gray-color);
+            margin-bottom: 0.5rem;
+        }
+        .stat-card .value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .data-table th {
+            text-align: left;
+            padding: 1rem;
+            background-color: #f1f5f9;
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .status-active {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        .status-pending {
+            background-color: #fef9c3;
+            color: #ca8a04;
+        }
+        .status-inactive {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .search-bar {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+            font-size: 0.875rem;
+        }
+        .search-bar button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            cursor: pointer;
+        }
+        .action-btn {
+            background-color: transparent;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.25rem;
+        }
+        .action-btn:hover {
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <header class="demo-header">
+        <div class="container">
+            <div class="logo">
+                <h1>RS<span>SOLUTION</span></h1>
+            </div>
+            <a href="../../index.html#proyectos" class="demo-back">
+                <i class="fas fa-arrow-left"></i> Volver a Proyectos
+            </a>
+        </div>
+    </header>
+
+    <div class="demo-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>Sistema de Gestión Empresarial</h2>
+                <p>Demo interactiva de nuestra plataforma de gestión</p>
+            </div>
+
+            <div class="dashboard">
+                <div class="dashboard-header">
+                    <h2>Panel de Control</h2>
+                    <div>
+                        <button class="btn btn-primary" id="newRecordBtn">
+                            <i class="fas fa-plus"></i> Nuevo Registro
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" data-tab="dashboard">Dashboard</div>
+                    <div class="tab" data-tab="clients">Clientes</div>
+                    <div class="tab" data-tab="products">Productos</div>
+                    <div class="tab" data-tab="orders">Pedidos</div>
+                </div>
+
+                <div class="tab-content active" id="dashboard-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Ventas Totales</h3>
+                            <div class="value">$124,568</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Clientes Activos</h3>
+                            <div class="value">1,245</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Productos</h3>
+                            <div class="value">348</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Pedidos Pendientes</h3>
+                            <div class="value">28</div>
+                        </div>
+                    </div>
+
+                    <h3>Últimas Transacciones</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#TRX-789</td>
+                                <td>Empresa ABC</td>
+                                <td>15/06/2023</td>
+                                <td>$1,250.00</td>
+                                <td><span class="status status-active">Completado</span></td>
+                            </tr>
+                            <tr>
+                                <td>#TRX-788</td>
+                                <td>Corporación XYZ</td>
+                                <td>14/06/2023</td>
+                                <td>$3,450.00</td>
+                                <td><span class="status status-active">Completado</span></td>
+                            </tr>
+                            <tr>
+                                <td>#TRX-787</td>
+                                <td>Distribuidora 123</td>
+                                <td>14/06/2023</td>
+                                <td>$890.50</td>
+                                <td><span class="status status-pending">Pendiente</span></td>
+                            </tr>
+                            <tr>
+                                <td>#TRX-786</td>
+                                <td>Servicios Técnicos</td>
+                                <td>13/06/2023</td>
+                                <td>$2,100.00</td>
+                                <td><span class="status status-inactive">Cancelado</span></td>
+                            </tr>
+                            <tr>
+                                <td>#TRX-785</td>
+                                <td>Consultora Legal</td>
+                                <td>12/06/2023</td>
+                                <td>$1,800.00</td>
+                                <td><span class="status status-active">Completado</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-content" id="clients-content">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Buscar clientes...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#CLI-001</td>
+                                <td>Empresa ABC</td>
+                                <td>contacto@empresaabc.com</td>
+                                <td>+123 456 7890</td>
+                                <td><span class="status status-active">Activo</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#CLI-002</td>
+                                <td>Corporación XYZ</td>
+                                <td>info@corpxyz.com</td>
+                                <td>+123 456 7891</td>
+                                <td><span class="status status-active">Activo</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#CLI-003</td>
+                                <td>Distribuidora 123</td>
+                                <td>ventas@dist123.com</td>
+                                <td>+123 456 7892</td>
+                                <td><span class="status status-pending">En revisión</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#CLI-004</td>
+                                <td>Servicios Técnicos</td>
+                                <td>soporte@servtec.com</td>
+                                <td>+123 456 7893</td>
+                                <td><span class="status status-inactive">Inactivo</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#CLI-005</td>
+                                <td>Consultora Legal</td>
+                                <td>legal@consultora.com</td>
+                                <td>+123 456 7894</td>
+                                <td><span class="status status-active">Activo</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-content" id="products-content">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Buscar productos...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Producto</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#PRD-001</td>
+                                <td>Laptop Pro X5</td>
+                                <td>Electrónica</td>
+                                <td>$1,299.99</td>
+                                <td>24</td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#PRD-002</td>
+                                <td>Monitor UltraWide 34"</td>
+                                <td>Electrónica</td>
+                                <td>$499.99</td>
+                                <td>15</td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#PRD-003</td>
+                                <td>Teclado Mecánico RGB</td>
+                                <td>Accesorios</td>
+                                <td>$89.99</td>
+                                <td>42</td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#PRD-004</td>
+                                <td>Mouse Inalámbrico Pro</td>
+                                <td>Accesorios</td>
+                                <td>$49.99</td>
+                                <td>38</td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#PRD-005</td>
+                                <td>Auriculares Bluetooth</td>
+                                <td>Audio</td>
+                                <td>$129.99</td>
+                                <td>27</td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="action-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-content" id="orders-content">
+                    <div class="search-bar">
+                        <input type="text" placeholder="Buscar pedidos...">
+                        <button><i class="fas fa-search"></i></button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD-001</td>
+                                <td>Empresa ABC</td>
+                                <td>15/06/2023</td>
+                                <td>$1,250.00</td>
+                                <td><span class="status status-active">Entregado</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn"><i class="fas fa-print"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-002</td>
+                                <td>Corporación XYZ</td>
+                                <td>14/06/2023</td>
+                                <td>$3,450.00</td>
+                                <td><span class="status status-active">Entregado</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn"><i class="fas fa-print"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-003</td>
+                                <td>Distribuidora 123</td>
+                                <td>14/06/2023</td>
+                                <td>$890.50</td>
+                                <td><span class="status status-pending">En proceso</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn"><i class="fas fa-print"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-004</td>
+                                <td>Servicios Técnicos</td>
+                                <td>13/06/2023</td>
+                                <td>$2,100.00</td>
+                                <td><span class="status status-inactive">Cancelado</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn"><i class="fas fa-print"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-005</td>
+                                <td>Consultora Legal</td>
+                                <td>12/06/2023</td>
+                                <td>$1,800.00</td>
+                                <td><span class="status status-active">Entregado</span></td>
+                                <td>
+                                    <button class="action-btn"><i class="fas fa-eye"></i></button>
+                                    <button class="action-btn"><i class="fas fa-print"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to current tab and content
+                    this.classList.add('active');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+            
+            // New record button functionality
+            const newRecordBtn = document.getElementById('newRecordBtn');
+            newRecordBtn.addEventListener('click', function() {
+                alert('Funcionalidad para agregar un nuevo registro');
+            });
+            
+            // Action buttons functionality
+            const actionBtns = document.querySelectorAll('.action-btn');
+            actionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const action = this.querySelector('i').classList.contains('fa-edit') ? 'editar' : 
+                                  this.querySelector('i').classList.contains('fa-trash') ? 'eliminar' : 
+                                  this.querySelector('i').classList.contains('fa-eye') ? 'ver detalles de' : 
+                                  this.querySelector('i').classList.contains('fa-print') ? 'imprimir' : 'gestionar';
+                    
+                    const row = this.closest('tr');
+                    const id = row.querySelector('td:first-child').textContent;
+                    const name = row.querySelector('td:nth-child(2)').textContent;
+                    
+                    // Visual feedback
+                    this.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                    
+                    // Show action message
+                    alert(`Acción: ${action} ${id} (${name})`);
+                });
+            });
+            
+            // Search functionality
+            const searchInputs = document.querySelectorAll('.search-bar input');
+            searchInputs.forEach(input => {
+                input.addEventListener('keyup', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    const tableBody = this.closest('.tab-content').querySelector('tbody');
+                    const rows = tableBody.querySelectorAll('tr');
+                    
+                    rows.forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        if(text.includes(searchTerm)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Add hover effect to table rows
+            const tableRows = document.querySelectorAll('.data-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#f8fafc';
+                });
+                row.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = '';
+                });
+            });
+            
+            // Add chart visualization (simulated)
+            const addChartVisualization = () => {
+                const dashboardContent = document.getElementById('dashboard-content');
+                if (!dashboardContent.querySelector('.chart-container')) {
+                    const chartContainer = document.createElement('div');
+                    chartContainer.className = 'chart-container';
+                    chartContainer.style.marginTop = '2rem';
+                    chartContainer.style.padding = '1.5rem';
+                    chartContainer.style.backgroundColor = 'white';
+                    chartContainer.style.borderRadius = 'var(--border-radius)';
+                    chartContainer.style.boxShadow = 'var(--shadow-sm)';
+                    
+                    chartContainer.innerHTML = `
+                        <h3>Análisis de Ventas</h3>
+                        <div style="height: 300px; background-image: url('https://i.imgur.com/ZZSgQYV.png'); background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
+                    `;
+                    
+                    dashboardContent.appendChild(chartContainer);
+                }
+            };
+            
+            // Call the function to add chart visualization
+            addChartVisualization();
+            
+            // Simulate data loading
+            const simulateLoading = () => {
+                const loadingOverlay = document.createElement('div');
+                loadingOverlay.style.position = 'fixed';
+                loadingOverlay.style.top = '0';
+                loadingOverlay.style.left = '0';
+                loadingOverlay.style.width = '100%';
+                loadingOverlay.style.height = '100%';
+                loadingOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.8)';
+                loadingOverlay.style.display = 'flex';
+                loadingOverlay.style.justifyContent = 'center';
+                loadingOverlay.style.alignItems = 'center';
+                loadingOverlay.style.zIndex = '9999';
+                
+                const spinner = document.createElement('div');
+                spinner.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary-color);"></i>';
+                loadingOverlay.appendChild(spinner);
+                
+                document.body.appendChild(loadingOverlay);
+                
+                setTimeout(() => {
+                    document.body.removeChild(loadingOverlay);
+                }, 800);
+            };
+            
+            // Simulate loading when changing tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', simulateLoading);
+            });
+        });
+    </script>
+</body>
+</html>

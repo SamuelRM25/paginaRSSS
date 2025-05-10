@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplos Responsive - RS SOLUTION</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        .examples-section {
+            padding: 120px 0 80px;
+        }
+        
+        .example-item {
+            margin-bottom: 80px;
+        }
+        
+        .example-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .example-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+        
+        .example-header p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .responsive-showcase {
+            position: relative;
+            height: 500px;
+            background: #f8f9fa;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+        }
+        
+        .device-frame {
+            position: absolute;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .desktop-frame {
+            width: 70%;
+            height: 60%;
+            top: 10%;
+            left: 15%;
+            z-index: 1;
+        }
+        
+        .tablet-frame {
+            width: 30%;
+            height: 45%;
+            bottom: 10%;
+            left: 10%;
+            z-index: 2;
+        }
+        
+        .mobile-frame {
+            width: 15%;
+            height: 40%;
+            bottom: 15%;
+            right: 15%;
+            z-index: 3;
+        }
+        
+        .device-screen {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .device-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .device-controls {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .device-btn {
+            padding: 8px 15px;
+            margin: 0 10px;
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            border-radius: var(--border-radius-sm);
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all var(--transition-fast);
+        }
+        
+        .device-btn.active, .device-btn:hover {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .back-to-home {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js" class="particles-container"></div>
+
+    <header class="glass-effect">
+        <div class="container">
+            <div class="logo">
+                <h1><span class="gradient-text">RS</span><span>SOLUTION</span></h1>
+            </div>
+            <nav>
+                <ul class="menu">
+                    <li><a href="index.html#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="index.html#servicios" class="nav-link">Servicios</a></li>
+                    <li><a href="index.html#tecnologias" class="nav-link">Tecnologías</a></li>
+                    <li><a href="index.html#proyectos" class="nav-link">Proyectos</a></li>
+                    <li><a href="index.html#dispositivos" class="nav-link">Dispositivos</a></li>
+                    <li><a href="index.html#contacto" class="nav-link">Contacto</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="examples-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="gradient-text">Ejemplos Responsive</h2>
+                <p>Nuestras soluciones se adaptan perfectamente a cualquier dispositivo</p>
+            </div>
+            
+            <div class="example-item" data-aos="fade-up">
+                <div class="example-header">
+                    <h3>E-commerce Responsive</h3>
+                    <p>Tienda online con diseño adaptativo que ofrece una experiencia de compra óptima en cualquier dispositivo</p>
+                </div>
+                <div class="responsive-showcase" id="showcase-1">
+                    <div class="device-frame desktop-frame">
+                        <div class="device-screen">
+                            <img src="images/examples/ecommerce-desktop.jpg" alt="E-commerce Desktop">
+                        </div>
+                    </div>
+                    <div class="device-frame tablet-frame">
+                        <div class="device-screen">
+                            <img src="images/examples/ecommerce-tablet.jpg" alt="E-commerce Tablet">
+                        </div>
+                    </div>
+                    <div class="device-frame mobile-frame">
+                        <div class="device-screen">
+                            <img src="images/examples/ecommerce-mobile.jpg" alt="E-commerce Mobile">
+                        </div>
+                    </div>
+                </div>
+                <div class="device-controls">
+                    <button class="device-btn active" data-device="desktop" data-showcase="1">Desktop</button>
+                    <button class="device-btn" data-device="tablet" data-showcase="1">Tablet</button>
+                    <button class="device-btn" data-device="mobile" data-showcase="1">Mobile</button>
+                </div>
+            </div>
+            
+            <div class="example-item" data-aos="fade-up">
+                <div class="example-header">
+                    <h3>Dashboard Analítico</h3>
+                    <p>Panel de control con visualizaciones de datos que se adapta a diferentes tamaños de pantalla</p>
+                </div>
+                <div class="responsive-showcase" id="showcase-2">
+                    <div class="device-frame desktop-frame">
+                        <div class="device-screen">
+                            <img src="images/examples/dashboard-desktop.jpg" alt="Dashboard Desktop">
+                        </div>
+                    </div>
+                    <div class="device-frame tablet-frame">
+                        <div class="device-screen">
+                            <img src="images/examples/dashboard-tablet.jpg" alt="Dashboard Tablet">
+                        </div>
+                    </div>
+                    <div class="device-frame mobile-frame">
+                        <div class="device-screen">
+                            <img src="images/examples/dashboard-mobile.jpg" alt="Dashboard Mobile">
+                        </div>
+                    </div>
+                </div>
+                <div class="device-controls">
+                    <button class="device-btn active" data-device="desktop" data-showcase="2">Desktop</button>
+                    <button class="device-btn" data-device="tablet" data-showcase="2">Tablet</button>
+                    <button class="device-btn" data-device="mobile" data-showcase="2">Mobile</button>
+                </div>
+            </div>
+            
+            <div class="example-item" data-aos="fade-up">
+                <div class="example-header">
+                    <h3>Aplicación de Gestión</h3>
+                    <p>Sistema de gestión empresarial con interfaces adaptativas para uso en oficina y en movilidad</p>
+                </div>
+                <div class="responsive-showcase" id="showcase-3">
+                    <div class="device-frame desktop-frame">
+                        <div class="device-screen">
+                            <img src="images/examples/gestion-desktop.jpg" alt="Gestión Desktop">
+                        </div>
+                    </div>
+                    <div class="device-frame tablet-frame">
+                        <div class="device-screen">
+                            <img src="images/examples/gestion-tablet.jpg" alt="Gestión Tablet">
+                        </div>
+                    </div>
+                    <div class="device-frame mobile-frame">
+                        <div class="device-screen">
+                            <img src="images/examples/gestion-mobile.jpg" alt="Gestión Mobile">
+                        </div>
+                    </div>
+                </div>
+                <div class="device-controls">
+                    <button class="device-btn active" data-device="desktop" data-showcase="3">Desktop</button>
+                    <button class="device-btn" data-device="tablet" data-showcase="3">Tablet</button>
+                    <button class="device-btn" data-device="mobile" data-showcase="3">Mobile</button>
+                </div>
+            </div>
+            
+            <div class="back-to-home">
+                <a href="index.html#dispositivos" class="btn btn-primary">Volver a Dispositivos</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="modern-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2023 RS SOLUTION. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inicializar AOS
+        AOS.init({
+            once: false,
+            mirror: true,
+            offset: 120,
+            easing: 'ease-out-cubic'
+        });
+
+        // Configuración de Particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#3498db"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": false,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#3498db",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        });
+
+        // Controles de dispositivos
+        const deviceBtns = document.querySelectorAll('.device-btn');
+        
+        deviceBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const device = this.getAttribute('data-device');
+                const showcase = this.getAttribute('data-showcase');
+                const showcaseEl = document.getElementById('showcase-' + showcase);
+                
+                // Actualizar botones activos
+                document.querySelectorAll(`.device-btn[data-showcase="${showcase}"]`).forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Actualizar visualización
+                if (device === 'desktop') {
+                    showcaseEl.querySelector('.desktop-frame').style.transform = 'scale(1)';
+                    showcaseEl.querySelector('.tablet-frame').style.transform = 'scale(0.6)';
+                    showcaseEl.querySelector('.mobile-frame').style.transform = 'scale(0.6)';
+                } else if (device === 'tablet') {
+                    showcaseEl.querySelector('.desktop-frame').style.transform = 'scale(0.6)';
+                    showcaseEl.querySelector('.tablet-frame').style.transform = 'scale(1.2)';
+                    showcaseEl.querySelector('.mobile-frame').style.transform = 'scale(0.6)';
+                } else if (device === 'mobile') {
+                    showcaseEl.querySelector('.desktop-frame').style.transform = 'scale(0.6)';
+                    showcaseEl.querySelector('.tablet-frame').style.transform = 'scale(0.6)';
+                    showcaseEl.querySelector('.mobile-frame').style.transform = 'scale(1.5)';
+                }
+            });
+        });
+
+        // Navegación - Toggle para menú móvil
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menu = document.querySelector('.menu');
+        
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function() {
+                menu.classList.toggle('active');
+            });
+        }
+    </script>
+</body>
+</html>

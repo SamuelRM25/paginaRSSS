@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - App de Delivery | RS SOLUTION</title>
+    <link rel="stylesheet" href="../demo-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos existentes */
+        .demo-header {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .demo-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .demo-content {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+        .demo-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .app-demo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 0;
+        }
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background-color: #1e293b;
+            border-radius: 30px;
+            padding: 10px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        .app-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+        }
+        .app-header h2 {
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        .app-back {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 1.25rem;
+        }
+        .app-content {
+            padding: 1rem;
+            height: calc(100% - 60px - 50px); /* Ajustado para el nav */
+            overflow-y: auto;
+        }
+        .restaurant-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+        }
+        .restaurant-image {
+            height: 120px;
+            overflow: hidden;
+        }
+        .restaurant-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .restaurant-info {
+            padding: 1rem;
+        }
+        .restaurant-info h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1rem;
+        }
+        .restaurant-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--gray-color);
+        }
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        .rating i {
+            color: #f59e0b;
+        }
+        .app-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.75rem 0;
+            border-top: 1px solid #e2e8f0;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--gray-color);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+        .nav-item i {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Nuevos estilos para funcionalidades */
+        .search-bar {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px;
+            font-size: 0.875rem;
+        }
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+        }
+        .category-filters {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .category-filter {
+            padding: 0.5rem 1rem;
+            background-color: #f1f5f9;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .category-filter.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .restaurant-detail {
+            display: none;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .restaurant-cover {
+            height: 150px;
+            position: relative;
+        }
+        .restaurant-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .restaurant-detail-info {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .menu-categories {
+            padding: 1rem;
+        }
+        .menu-category {
+            margin-bottom: 1.5rem;
+        }
+        .menu-category h3 {
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .menu-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .menu-item-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .menu-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .menu-item-info {
+            flex: 1;
+        }
+        .menu-item-info h4 {
+            font-size: 0.875rem;
+            margin: 0 0 0.25rem;
+        }
+        .menu-item-info p {
+            font-size: 0.75rem;
+            color: var(--gray-color);
+            margin: 0 0 0.5rem;
+        }
+        .menu-item-price {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .add-item {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .screen {
+            display: none;
+            height: 100%;
+        }
+        .screen.active {
+            display: block;
+        }
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(79, 70, 229, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header class="demo-header">
+        <div class="container">
+            <div class="logo">
+                <h1>RS<span>SOLUTION</span></h1>
+            </div>
+            <a href="../../index.html#proyectos" class="demo-back">
+                <i class="fas fa-arrow-left"></i> Volver a Proyectos
+            </a>
+        </div>
+    </header>
+
+    <div class="demo-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>App de Delivery</h2>
+                <p>Demo interactiva de nuestra aplicación móvil</p>
+            </div>
+
+            <div class="app-demo">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <!-- Pantalla de Inicio (Restaurantes) -->
+                        <div id="home-screen" class="screen active">
+                            <div class="app-header">
+                                <h2>Restaurantes</h2>
+                            </div>
+                            <div class="app-content">
+                                <div class="search-bar">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" placeholder="Buscar restaurantes...">
+                                </div>
+                                <div class="category-filters">
+                                    <div class="category-filter active">Todos</div>
+                                    <div class="category-filter">Pizza</div>
+                                    <div class="category-filter">Hamburguesas</div>
+                                    <div class="category-filter">Saludable</div>
+                                    <div class="category-filter">Sushi</div>
+                                    <div class="category-filter">Postres</div>
+                                </div>
+                                <div class="restaurant-card" data-id="1">
+                                    <div class="restaurant-image">
+                                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Restaurante">
+                                    </div>
+                                    <div class="restaurant-info">
+                                        <h3>La Pizzería Italiana</h3>
+                                        <div class="restaurant-meta">
+                                            <span>Pizza, Italiana • 25-35 min</span>
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <span>4.8</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="restaurant-card" data-id="2">
+                                    <div class="restaurant-image">
+                                        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Restaurante">
+                                    </div>
+                                    <div class="restaurant-info">
+                                        <h3>Burger House</h3>
+                                        <div class="restaurant-meta">
+                                            <span>Hamburguesas • 15-25 min</span>
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <span>4.5</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="restaurant-card" data-id="3">
+                                    <div class="restaurant-image">
+                                        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Restaurante">
+                                    </div>
+                                    <div class="restaurant-info">
+                                        <h3>Ensaladas Frescas</h3>
+                                        <div class="restaurant-meta">
+                                            <span>Saludable, Vegano • 20-30 min</span>
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <span>4.7</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="restaurant-card" data-id="4">
+                                    <div class="restaurant-image">
+                                        <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Restaurante">
+                                    </div>
+                                    <div class="restaurant-info">
+                                        <h3>Sushi Express</h3>
+                                        <div class="restaurant-meta">
+                                            <span>Japonesa, Sushi • 30-45 min</span>
+                                            <div class="rating">
+                                                <i class="fas fa-star"></i>
+                                                <span>4.9</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="app-nav">
+                                <div class="nav-item active" data-screen="home">
+                                    <i class="fas fa-home"></i>
+                                    <span>Inicio</span>
+                                </div>
+                                <div class="nav-item" data-screen="search">
+                                    <i class="fas fa-search"></i>
+                                    <span>Buscar</span>
+                                </div>
+                                <div class="nav-item" data-screen="orders">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span>Pedidos</span>
+                                    <div class="cart-badge" style="display: none;">0</div>
+                                </div>
+                                <div class="nav-item" data-screen="profile">
+                                    <i class="fas fa-user"></i>
+                                    <span>Perfil</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pantalla de Detalle de Restaurante -->
+                        <div id="restaurant-detail-screen" class="screen">
+                            <div class="app-header">
+                                <a href="#" class="app-back" id="back-to-home"><i class="fas fa-chevron-left"></i></a>
+                                <h2>Detalle Restaurante</h2>
+                            </div>
+                            <div class="app-content">
+                                <div class="restaurant-cover">
+                                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Restaurante" id="detail-cover">
+                                </div>
+                                <div class="restaurant-detail-info">
+                                    <h3 id="detail-name">La Pizzería Italiana</h3>
+                                    <div class="restaurant-meta">
+                                        <span id="detail-category">Pizza, Italiana • 25-35 min</span>
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <span id="detail-rating">4.8</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="menu-categories">
+                                    <div class="menu-category">
+                                        <h3>Pizzas</h3>
+                                        <div class="menu-item">
+                                            <div class="menu-item-image">
+                                                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Pizza">
+                                            </div>
+                                            <div class="menu-item-info">
+                                                <h4>Pizza Margherita</h4>
+                                                <p>Tomate, mozzarella, albahaca</p>
+                                                <div class="menu-item-price">$12.99</div>
+                                            </div>
+                                            <div class="add-item">
+                                                <i class="fas fa-plus"></i>
+                                            </div>
+                                        </div>
+                                        <div class="menu-item">
+                                            <div class="menu-item-image">
+                                                <img src="https://images.unsplash.com/photo-1594007654729-407eedc4fe24?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1428&q=80" alt="Pizza">
+                                            </div>
+                                            <div class="menu-item-info">
+                                                <h4>Pizza Pepperoni</h4>
+                                                <p>Tomate, mozzarella, pepperoni</p>
+                                                <div class="menu-item-price">$14.99</div>
+                                            </div>
+                                            <div class="add-item">
+                                                <i class="fas fa-plus"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="menu-category">
+                                        <h3>Pastas</h3>
+                                        <div class="menu-item">
+                                            <div class="menu-item-image">
+                                                <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="Pasta">
+                                            </div>
+                                            <div class="menu-item-info">
+                                                <h4>Spaghetti Carbonara</h4>
+                                                <p>Huevo, panceta, queso parmesano</p>
+                                                <div class="menu-item-price">$13.99</div>
+                                            </div>
+                                            <div class="add-item">
+                                                <i class="fas fa-plus"></i>
+                                            </div>
+                                        </div>
+                                        <div class="menu-item">
+                                            <div class="menu-item-image">
+                                                <img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="Pasta">
+                                            </div>
+                                            <div class="menu-item-info">
+                                                <h4>Lasagna Bolognese</h4>
+                                                <p>Carne, tomate, bechamel, queso</p>
+                                                <div class="menu-item-price">$15.99</div>
+                                            </div>
+                                            <div class="add-item">
+                                                <i class="fas fa-plus"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pantalla de Búsqueda -->
+                        <div id="search-screen" class="screen">
+                            <div class="app-header">
+                                <h2>Buscar</h2>
+                            </div>
+                            <div class="app-content">
+                                <div class="search-bar">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" placeholder="Buscar comida o restaurantes...">
+                                </div>
+                                <div style="text-align: center; padding: 2rem 0;">
+                                    <i class="fas fa-search" style="font-size: 3rem; color: #e2e8f0; margin-bottom: 1rem;"></i>
+                                    <p style="color: var(--gray-color);">Busca tu comida favorita</p>
+                                </div>
+                            </div>
+                            <div class="app-nav">
+                                <div class="nav-item" data-screen="home">
+                                    <i class="fas fa-home"></i>
+                                    <span>Inicio</span>
+                                </div>
+                                <div class="nav-item active" data-screen="search">
+                                    <i class="fas fa-search"></i>
+                                    <span>Buscar</span>
+                                </div>
+                                <div class="nav-item" data-screen="orders">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span>Pedidos</span>
+                                    <div class="cart-badge" style="display: none;">0</div>
+                                </div>
+                                <div class="nav-item" data-screen="profile">
+                                    <i class="fas fa-user"></i>
+                                    <span>Perfil</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pantalla de Pedidos -->
+                        <div id="orders-screen" class="screen">
+                            <div class="app-header">
+                                <h2>Mis Pedidos</h2>
+                            </div>
+                            <div class="app-content">
+                                <div id="empty-cart" style="text-align: center; padding: 3rem 0;">
+                                    <i class="fas fa-shopping-bag" style="font-size: 3rem; color: #e2e8f0; margin-bottom: 1rem;"></i>
+                                    <p style="color: var(--gray-color);">Tu carrito está vacío</p>
+                                    <button class="btn btn-primary" style="margin-top: 1rem;" id="start-ordering">Comenzar a pedir</button>
+                                </div>
+                                <div id="cart-items" style="display: none;">
+                                    <!-- Los items del carrito se agregarán dinámicamente -->
+                                </div>
+                            </div>
+                            <div class="app-nav">
+                                <div class="nav-item" data-screen="home">
+                                    <i class="fas fa-home"></i>
+                                    <span>Inicio</span>
+                                </div>
+                                <div class="nav-item" data-screen="search">
+                                    <i class="fas fa-search"></i>
+                                    <span>Buscar</span>
+                                </div>
+                                <div class="nav-item active" data-screen="orders">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span>Pedidos</span>
+                                    <div class="cart-badge" style="display: none;">0</div>
+                                </div>
+                                <div class="nav-item" data-screen="profile">
+                                    <i class="fas fa-user"></i>
+                                    <span>Perfil</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pantalla de Perfil -->
+                        <div id="profile-screen" class="screen">
+                            <div class="app-header">
+                                <h2>Mi Perfil</h2>
+                            </div>
+                            <div class="app-content" style="text-align: center; padding-top: 2rem;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; background-color: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem;">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <h3 style="margin-bottom: 0.5rem;">Usuario Demo</h3>
+                                <p style="color: var(--gray-color); margin-bottom: 2rem;">usuario@demo.com</p>
+                                
+                                <div style="text-align: left; margin-top: 2rem;">
+                                    <div style="padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center;">
+                                        <i class="fas fa-history" style="margin-right: 1rem; color: var(--gray-color);"></i>
+                                        <span>Historial de pedidos</span>
+                                    </div>
+                                    <div style="padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center;">
+                                        <i class="fas fa-map-marker-alt" style="margin-right: 1rem; color: var(--gray-color);"></i>
+                                        <span>Mis direcciones</span>
+                                    </div>
+                                    <div style="padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center;">
+                                        <i class="fas fa-credit-card" style="margin-right: 1rem; color: var(--gray-color);"></i>
+                                        <span>Métodos de pago</span>
+                                    </div>
+                                    <div style="padding: 1rem; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center;">
+                                        <i class="fas fa-cog" style="margin-right: 1rem; color: var(--gray-color);"></i>
+                                        <span>Configuración</span>
+                                    </div>
+                                    <div style="padding: 1rem; display: flex; align-items: center;">
+                                        <i class="fas fa-sign-out-alt" style="margin-right: 1rem; color: var(--danger-color);"></i>
+                                        <span style="color: var(--danger-color);">Cerrar sesión</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="app-nav">
+                                <div class="nav-item" data-screen="home">
+                                    <i class="fas fa-home"></i>
+                                    <span>Inicio</span>
+                                </div>
+                                <div class="nav-item" data-screen="search">
+                                    <i class="fas fa-search"></i>
+                                    <span>Buscar</span>
+                                </div>
+                                <div class="nav-item" data-screen="orders">
+                                    <i class="fas fa-shopping-bag"></i>
+                                    <span>Pedidos</span>
+                                    <div class="cart-badge" style="display: none;">0</div>
+                                </div>
+                                <div class="nav-item active" data-screen="profile">
+                                    <i class="fas fa-user"></i>
+                                    <span>Perfil</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Overlay de carga -->
+                        <div class="loading-overlay" style="display: none;">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</body>
+</html>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables globales
+            let cartItems = [];
+            let cartCount = 0;
+            
+            // Elementos DOM
+            const screens = document.querySelectorAll('.screen');
+            const navItems = document.querySelectorAll('.nav-item');
+            const restaurantCards = document.querySelectorAll('.restaurant-card');
+            const backToHomeBtn = document.getElementById('back-to-home');
+            const startOrderingBtn = document.getElementById('start-ordering');
+            const addItemBtns = document.querySelectorAll('.add-item');
+            const cartBadges = document.querySelectorAll('.cart-badge');
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            const categoryFilters = document.querySelectorAll('.category-filter');
+            const searchInputs = document.querySelectorAll('.search-bar input');
+            
+            // Función para mostrar pantalla
+            function showScreen(screenId) {
+                // Mostrar overlay de carga
+                loadingOverlay.style.display = 'flex';
+                
+                setTimeout(() => {
+                    // Ocultar todas las pantallas
+                    screens.forEach(screen => {
+                        screen.classList.remove('active');
+                        
+                        // Añadir animación de salida
+                        screen.style.animation = 'fadeOut 0.3s ease forwards';
+                    });
+                    
+                    // Mostrar la pantalla seleccionada
+                    const targetScreen = document.getElementById(`${screenId}-screen`);
+                    targetScreen.classList.add('active');
+                    
+                    // Añadir animación de entrada
+                    targetScreen.style.animation = 'fadeIn 0.5s ease forwards';
+                    
+                    // Actualizar navegación
+                    navItems.forEach(item => {
+                        if (item.getAttribute('data-screen') === screenId) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    });
+                    
+                    // Ocultar overlay de carga
+                    setTimeout(() => {
+                        loadingOverlay.style.display = 'none';
+                    }, 300);
+                }, 300);
+            }
+            
+            // Navegación entre pantallas
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const screenId = this.getAttribute('data-screen');
+                    showScreen(screenId);
+                    
+                    // Efecto de pulsación
+                    this.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+            
+            // Mostrar detalle de restaurante
+            restaurantCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const restaurantId = this.getAttribute('data-id');
+                    const restaurantName = this.querySelector('h3').textContent;
+                    const restaurantCategory = this.querySelector('.restaurant-meta span').textContent;
+                    const restaurantRating = this.querySelector('.rating span').textContent;
+                    const restaurantImage = this.querySelector('img').getAttribute('src');
+                    
+                    // Actualizar datos en la pantalla de detalle
+                    document.getElementById('detail-name').textContent = restaurantName;
+                    document.getElementById('detail-category').textContent = restaurantCategory;
+                    document.getElementById('detail-rating').textContent = restaurantRating;
+                    document.getElementById('detail-cover').setAttribute('src', restaurantImage);
+                    
+                    // Mostrar pantalla de detalle con animación
+                    loadingOverlay.style.display = 'flex';
+                    
+                    setTimeout(() => {
+                        document.getElementById('home-screen').classList.remove('active');
+                        document.getElementById('restaurant-detail-screen').classList.add('active');
+                        
+                        // Animación de entrada para elementos del menú
+                        const menuItems = document.querySelectorAll('.menu-item');
+                        menuItems.forEach((item, index) => {
+                            item.style.opacity = '0';
+                            item.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                item.style.transition = 'all 0.3s ease';
+                                item.style.opacity = '1';
+                                item.style.transform = 'translateY(0)';
+                            }, 100 * index);
+                        });
+                        
+                        loadingOverlay.style.display = 'none';
+                    }, 500);
+                });
+            });
+            
+            // Volver a la pantalla de inicio
+            backToHomeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Animación de salida
+                document.getElementById('restaurant-detail-screen').style.animation = 'slideOutRight 0.3s ease forwards';
+                
+                setTimeout(() => {
+                    document.getElementById('restaurant-detail-screen').classList.remove('active');
+                    document.getElementById('home-screen').classList.add('active');
+                    document.getElementById('home-screen').style.animation = 'slideInLeft 0.3s ease forwards';
+                }, 300);
+            });
+            
+            // Comenzar a pedir
+            startOrderingBtn.addEventListener('click', function() {
+                showScreen('home');
+            });
+            
+            // Añadir item al carrito
+            addItemBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    
+                    // Efecto visual
+                    this.style.transform = 'scale(0.8)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                    
+                    // Obtener información del item
+                    const menuItem = this.closest('.menu-item');
+                    const itemName = menuItem.querySelector('h4').textContent;
+                    const itemPrice = menuItem.querySelector('.menu-item-price').textContent;
+                    const itemImage = menuItem.querySelector('img').getAttribute('src');
+                    
+                    // Añadir al carrito
+                    cartItems.push({
+                        name: itemName,
+                        price: itemPrice,
+                        image: itemImage
+                    });
+                    
+                    // Actualizar contador
+                    cartCount++;
+                    cartBadges.forEach(badge => {
+                        badge.textContent = cartCount;
+                        badge.style.display = 'flex';
+                        
+                        // Animación del badge
+                        badge.style.animation = 'pulse 0.5s ease';
+                    });
+                    
+                    // Mostrar notificación
+                    const notification = document.createElement('div');
+                    notification.style.position = 'fixed';
+                    notification.style.bottom = '80px';
+                    notification.style.left = '50%';
+                    notification.style.transform = 'translateX(-50%)';
+                    notification.style.backgroundColor = 'var(--primary-color)';
+                    notification.style.color = 'white';
+                    notification.style.padding = '0.5rem 1rem';
+                    notification.style.borderRadius = '50px';
+                    notification.style.fontSize = '0.75rem';
+                    notification.style.boxShadow = 'var(--shadow-md)';
+                    notification.style.zIndex = '1000';
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'all 0.3s ease';
+                    notification.textContent = `${itemName} añadido al carrito`;
+                    
+                    document.body.appendChild(notification);
+                    
+                    setTimeout(() => {
+                        notification.style.opacity = '1';
+                        notification.style.bottom = '100px';
+                    }, 100);
+                    
+                    setTimeout(() => {
+                        notification.style.opacity = '0';
+                        notification.style.bottom = '80px';
+                        setTimeout(() => {
+                            document.body.removeChild(notification);
+                        }, 300);
+                    }, 2000);
+                    
+                    // Actualizar pantalla de pedidos
+                    updateCartScreen();
+                });
+            });
+            
+            // Actualizar pantalla de carrito
+            function updateCartScreen() {
+                const cartItemsContainer = document.getElementById('cart-items');
+                const emptyCart = document.getElementById('empty-cart');
+                
+                if (cartItems.length > 0) {
+                    // Mostrar items
+                    cartItemsContainer.style.display = 'block';
+                    emptyCart.style.display = 'none';
+                    
+                    // Limpiar contenedor
+                    cartItemsContainer.innerHTML = '';
+                    
+                    // Calcular total
+                    let total = 0;
+                    
+                    // Añadir items
+                    cartItems.forEach((item, index) => {
+                        const price = parseFloat(item.price.replace('$', ''));
+                        total += price;
+                        
+                        const itemElement = document.createElement('div');
+                        itemElement.className = 'menu-item';
+                        itemElement.style.opacity = '0';
+                        itemElement.style.transform = 'translateY(20px)';
+                        
+                        itemElement.innerHTML = `
+                            <div class="menu-item-image">
+                                <img src="${item.image}" alt="${item.name}">
+                            </div>
+                            <div class="menu-item-info">
+                                <h4>${item.name}</h4>
+                                <div class="menu-item-price">${item.price}</div>
+                            </div>
+                            <div class="remove-item" data-index="${index}">
+                                <i class="fas fa-times"></i>
+                            </div>
+                        `;
+                        
+                        cartItemsContainer.appendChild(itemElement);
+                        
+                        // Animación de entrada
+                        setTimeout(() => {
+                            itemElement.style.transition = 'all 0.3s ease';
+                            itemElement.style.opacity = '1';
+                            itemElement.style.transform = 'translateY(0)';
+                        }, 100 * index);
+                    });
+                    
+                    // Añadir total
+                    const totalElement = document.createElement('div');
+                    totalElement.style.marginTop = '2rem';
+                    totalElement.style.borderTop = '1px solid #e2e8f0';
+                    totalElement.style.paddingTop = '1rem';
+                    totalElement.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                            <span>Subtotal:</span>
+                            <span>$${total.toFixed(2)}</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                            <span>Envío:</span>
+                            <span>$2.99</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 1.5rem;">
+                            <span>Total:</span>
+                            <span>$${(total + 2.99).toFixed(2)}</span>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%;">Proceder al pago</button>
+                    `;
+                    
+                    cartItemsContainer.appendChild(totalElement);
+                    
+                    // Evento para eliminar items
+                    const removeButtons = document.querySelectorAll('.remove-item');
+                    removeButtons.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const index = parseInt(this.getAttribute('data-index'));
+                            cartItems.splice(index, 1);
+                            cartCount--;
+                            
+                            cartBadges.forEach(badge => {
+                                badge.textContent = cartCount;
+                                if (cartCount === 0) {
+                                    badge.style.display = 'none';
+                                }
+                            });
+                            
+                            updateCartScreen();
+                        });
+                    });
+                } else {
+                    // Mostrar carrito vacío
+                    cartItemsContainer.style.display = 'none';
+                    emptyCart.style.display = 'block';
+                }
+            }
+            
+            // Filtros de categoría
+            categoryFilters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    // Actualizar filtro activo
+                    categoryFilters.forEach(f => f.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filtrar restaurantes
+                    const category = this.textContent.toLowerCase();
+                    
+                    // Animación de filtrado
+                    restaurantCards.forEach(card => {
+                        const cardCategory = card.querySelector('.restaurant-meta span').textContent.toLowerCase();
+                        
+                        if (category === 'todos' || cardCategory.includes(category)) {
+                            card.style.display = 'block';
+                            card.style.animation = 'fadeIn 0.5s ease forwards';
+                        } else {
+                            card.style.animation = 'fadeOut 0.3s ease forwards';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+            
+            // Búsqueda
+            searchInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    
+                    if (this.closest('#home-screen')) {
+                        // Buscar restaurantes
+                        restaurantCards.forEach(card => {
+                            const cardName = card.querySelector('h3').textContent.toLowerCase();
+                            const cardCategory = card.querySelector('.restaurant-meta span').textContent.toLowerCase();
+                            
+                            if (cardName.includes(searchTerm) || cardCategory.includes(searchTerm)) {
+                                card.style.display = 'block';
+                                card.style.animation = 'fadeIn 0.5s ease forwards';
+                            } else {
+                                card.style.animation = 'fadeOut 0.3s ease forwards';
+                                setTimeout(() => {
+                                    card.style.display = 'none';
+                                }, 300);
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Añadir animaciones CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+                
+                @keyframes slideInLeft {
+                    from { transform: translateX(-100%); }
+                    to { transform: translateX(0); }
+                }
+                
+                @keyframes slideOutRight {
+                    from { transform: translateX(0); }
+                    to { transform: translateX(100%); }
+                }
+                
+                @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.2); }
+                    100% { transform: scale(1); }
+                }
+                
+                @keyframes bounce {
+                    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+                    40% { transform: translateY(-10px); }
+                    60% { transform: translateY(-5px); }
+                }
+                
+                .restaurant-card {
+                    transition: all 0.3s ease;
+                }
+                
+                .restaurant-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+                }
+                
+                .nav-item {
+                    transition: all 0.3s ease;
+                }
+                
+                .nav-item:hover {
+                    color: var(--primary-color);
+                }
+                
+                .add-item {
+                    transition: all 0.2s ease;
+                }
+                
+                .add-item:hover {
+                    transform: scale(1.1);
+                    background-color: #4338ca;
+                }
+                
+                .category-filter {
+                    transition: all 0.3s ease;
+                }
+                
+                .category-filter:hover {
+                    background-color: #e2e8f0;
+                }
+                
+                .menu-item {
+                    transition: all 0.3s ease;
+                }
+                
+                .menu-item:hover {
+                    background-color: #f8fafc;
+                }
+            `;
+            
+            document.head.appendChild(style);
+            
+            // Animaciones iniciales
+            function runInitialAnimations() {
+                // Animar restaurantes en la pantalla de inicio
+                const restaurantCards = document.querySelectorAll('.restaurant-card');
+                restaurantCards.forEach((card, index) => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.5s ease';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100 * index);
+                });
+                
+                // Animar filtros de categoría
+                const categoryFilters = document.querySelectorAll('.category-filter');
+                categoryFilters.forEach((filter, index) => {
+                    filter.style.opacity = '0';
+                    filter.style.transform = 'translateY(-10px)';
+                    
+                    setTimeout(() => {
+                        filter.style.transition = 'all 0.3s ease';
+                        filter.style.opacity = '1';
+                        filter.style.transform = 'translateY(0)';
+                    }, 50 * index);
+                });
+                
+                // Animar barra de navegación
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach((item, index) => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(10px)';
+                    
+                    setTimeout(() => {
+                        item.style.transition = 'all 0.3s ease';
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, 100 * index);
+                });
+            }
+            
+            // Ejecutar animaciones iniciales después de un breve retraso
+            setTimeout(runInitialAnimations, 300);
+            
+            // Efecto de pulsación para todos los elementos interactivos
+            const interactiveElements = document.querySelectorAll('button, .nav-item, .category-filter, .restaurant-card, .add-item');
+            interactiveElements.forEach(element => {
+                element.addEventListener('mousedown', function() {
+                    this.style.transform = 'scale(0.95)';
+                });
+                
+                element.addEventListener('mouseup', function() {
+                    this.style.transform = 'scale(1)';
+                });
+                
+                element.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Animación para el botón de comenzar a pedir
+            if (startOrderingBtn) {
+                setInterval(() => {
+                    startOrderingBtn.style.animation = 'pulse 1s ease';
+                    setTimeout(() => {
+                        startOrderingBtn.style.animation = '';
+                    }, 1000);
+                }, 3000);
+            }
+            
+            // Simular carga inicial
+            loadingOverlay.style.display = 'flex';
+            setTimeout(() => {
+                loadingOverlay.style.opacity = '0';
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                    loadingOverlay.style.opacity = '1';
+                }, 500);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

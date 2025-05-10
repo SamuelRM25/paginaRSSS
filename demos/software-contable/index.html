@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Software Contable | RS SOLUTION</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .demo-header {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .demo-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .demo-content {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+        .demo-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-weight: 500;
+        }
+        .desktop-app {
+            background-color: #f8fafc;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+        .app-titlebar {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .window-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .window-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .control-close {
+            background-color: #ef4444;
+        }
+        .control-minimize {
+            background-color: #f59e0b;
+        }
+        .control-maximize {
+            background-color: #10b981;
+        }
+        .app-sidebar {
+            width: 250px;
+            background-color: #1e293b;
+            color: white;
+            padding: 1.5rem 0;
+            height: 600px;
+            float: left;
+        }
+        .app-logo {
+            padding: 0 1.5rem;
+            margin-bottom: 2rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        .app-logo span {
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            color: #94a3b8;
+            transition: var(--transition);
+        }
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid var(--primary-color);
+        }
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+        .app-main {
+            margin-left: 250px;
+            padding: 1.5rem;
+            height: 600px;
+            overflow-y: auto;
+        }
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .financial-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .finance-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .finance-card h3 {
+            font-size: 0.875rem;
+            color: var(--gray-color);
+            margin-bottom: 0.5rem;
+        }
+        .finance-card .amount {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+        .finance-card .trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .trend-up {
+            color: var(--success-color);
+        }
+        .trend-down {
+            color: var(--danger-color);
+        }
+        .chart-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .chart-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+        .chart-tab {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        .chart-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .chart {
+            height: 250px;
+            background-image: url('https://i.imgur.com/ZZSgQYV.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .recent-transactions {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .transactions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .transaction-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--gray-color);
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        .transaction-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .transaction-type {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .type-income {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        .type-expense {
+            background-color: #fee2e2;
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <header class="demo-header">
+        <div class="container">
+            <div class="logo">
+                <h1>RS<span>SOLUTION</span></h1>
+            </div>
+            <a href="../../index.html#proyectos" class="demo-back">
+                <i class="fas fa-arrow-left"></i> Volver a Proyectos
+            </a>
+        </div>
+    </header>
+
+    <div class="demo-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>Software Contable</h2>
+                <p>Demo interactiva de nuestro sistema de contabilidad</p>
+            </div>
+
+            <div class="desktop-app">
+                <div class="app-titlebar">
+                    <div>FinanzasPro v3.5</div>
+                    <div class="window-controls">
+                        <div class="window-control control-minimize"></div>
+                        <div class="window-control control-maximize"></div>
+                        <div class="window-control control-close"></div>
+                    </div>
+                </div>
+                <div class="app-sidebar">
+                    <div class="app-logo">Finanzas<span>Pro</span></div>
+                    <div class="sidebar-menu">
+                        <a href="#" class="menu-item active">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="fas fa-wallet"></i>
+                            <span>Cuentas</span>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Transacciones</span>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>Facturas</span>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Informes</span>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="fas fa-users"></i>
+                            <span>Clientes</span>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="fas fa-building"></i>
+                            <span>Proveedores</span>
+                        </a>
+                        <a href="#" class="menu-item">
+                            <i class="fas fa-cog"></i>
+                            <span>Configuración</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="app-main">
+                    <div class="app-header">
+                        <h2>Dashboard Financiero</h2>
+                        <div class="user-profile">
+                            <span>Admin</span>
+                            <div class="user-avatar">A</div>
+                        </div>
+                    </div>
+
+                    <div class="financial-summary">
+                        <div class="finance-card">
+                            <h3>Ingresos Totales</h3>
+                            <div class="amount">$45,289.00</div>
+                            <div class="trend trend-up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>12.5% vs mes anterior</span>
+                            </div>
+                        </div>
+                        <div class="finance-card">
+                            <h3>Gastos Totales</h3>
+                            <div class="amount">$23,456.00</div>
+                            <div class="trend trend-down">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8.3% vs mes anterior</span>
+                            </div>
+                        </div>
+                        <div class="finance-card">
+                            <h3>Beneficio Neto</h3>
+                            <div class="amount">$21,833.00</div>
+                            <div class="trend trend-up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>15.2% vs mes anterior</span>
+                            </div>
+                        </div>
+                        <div class="finance-card">
+                            <h3>Facturas Pendientes</h3>
+                            <div class="amount">$8,750.00</div>
+                            <div class="trend trend-down">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>5.1% vs mes anterior</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Análisis Financiero</h3>
+                            <div class="chart-tabs">
+                                <div class="chart-tab active">Mensual</div>
+                                <div class="chart-tab">Trimestral</div>
+                                <div class="chart-tab">Anual</div>
+                            </div>
+                        </div>
+                        <div class="chart"></div>
+                    </div>
+
+                    <div class="recent-transactions">
+                        <div class="transactions-header">
+                            <h3>Transacciones Recientes</h3>
+                            <a href="#" class="btn btn-outline">Ver Todas</a>
+                        </div>
+                        <table class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Descripción</th>
+                                    <th>Categoría</th>
+                                    <th>Tipo</th>
+                                    <th>Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>15/06/2023</td>
+                                    <td>Pago de Cliente ABC</td>
+                                    <td>Ventas</td>
+                                    <td><span class="transaction-type type-income">Ingreso</span></td>
+                                    <td>$2,500.00</td>
+                                </tr>
+                                <tr>
+                                    <td>14/06/2023</td>
+                                    <td>Pago de Alquiler</td>
+                                    <td>Oficina</td>
+                                    <td><span class="transaction-type type-expense">Gasto</span></td>
+                                    <td>$1,200.00</td>
+                                </tr>
+                                <tr>
+                                    <td>12/06/2023</td>
+                                    <td>Factura Proveedor XYZ</td>
+                                    <td>Suministros</td>
+                                    <td><span class="transaction-type type-expense">Gasto</span></td>
+                                    <td>$850.00</td>
+                                </tr>
+                                <tr>
+                                    <td>10/06/2023</td>
+                                    <td>Pago de Cliente DEF</td>
+                                    <td>Servicios</td>
+                                    <td><span class="transaction-type type-income">Ingreso</span></td>
+                                    <td>$3,750.00</td>
+                                </tr>
+                                <tr>
+                                    <td>08/06/2023</td>
+                                    <td>Nómina Empleados</td>
+                                    <td>Personal</td>
+                                    <td><span class="transaction-type type-expense">Gasto</span></td>
+                                    <td>$5,400.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple interactivity for the demo
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart tabs
+            const chartTabs = document.querySelectorAll('.chart-tab');
+            chartTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    chartTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Cambiar el gráfico según la pestaña seleccionada
+                    const chartType = this.textContent.trim();
+                    updateChart(chartType);
+                });
+            });
+
+            // Menu items
+            const menuItems = document.querySelectorAll('.menu-item');
+            const appMain = document.querySelector('.app-main');
+            const originalContent = appMain.innerHTML;
+            
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Cambiar el contenido según el menú seleccionado
+                    const menuText = this.querySelector('span').textContent.trim();
+                    changeView(menuText, appMain, originalContent);
+                });
+            });
+            
+            // Inicializar gráfico
+            initializeChart();
+            
+            // Hacer las tarjetas financieras interactivas
+            const financeCards = document.querySelectorAll('.finance-card');
+            financeCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    showDetailModal(this);
+                });
+            });
+            
+            // Hacer las filas de transacciones interactivas
+            const transactionRows = document.querySelectorAll('.transaction-table tbody tr');
+            transactionRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    showTransactionDetail(this);
+                });
+                row.style.cursor = 'pointer';
+            });
+            
+            // Botón "Ver Todas" en transacciones
+            const viewAllBtn = document.querySelector('.transactions-header .btn');
+            viewAllBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showAllTransactions();
+            });
+            
+            // Controles de ventana
+            const closeBtn = document.querySelector('.control-close');
+            const minimizeBtn = document.querySelector('.control-minimize');
+            const maximizeBtn = document.querySelector('.control-maximize');
+            
+            closeBtn.addEventListener('click', function() {
+                alert('Esta es una demo. En una aplicación real, este botón cerraría la aplicación.');
+            });
+            
+            minimizeBtn.addEventListener('click', function() {
+                const desktopApp = document.querySelector('.desktop-app');
+                if (desktopApp.style.opacity !== '0.5') {
+                    desktopApp.style.opacity = '0.5';
+                    setTimeout(() => {
+                        desktopApp.style.opacity = '1';
+                    }, 1500);
+                }
+            });
+            
+            maximizeBtn.addEventListener('click', function() {
+                const desktopApp = document.querySelector('.desktop-app');
+                if (desktopApp.style.transform !== 'scale(1.05)') {
+                    desktopApp.style.transition = 'transform 0.3s ease';
+                    desktopApp.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        desktopApp.style.transform = 'scale(1)';
+                    }, 300);
+                }
+            });
+            
+            // Funciones para cambiar vistas
+            function changeView(viewName, mainContainer, dashboardContent) {
+                // Efecto de transición
+                mainContainer.style.opacity = '0';
+                
+                setTimeout(() => {
+                    switch(viewName) {
+                        case 'Dashboard':
+                            mainContainer.innerHTML = dashboardContent;
+                            // Reinicializar eventos después de restaurar el contenido
+                            initializeEvents();
+                            break;
+                        case 'Cuentas':
+                            mainContainer.innerHTML = generateAccountsView();
+                            break;
+                        case 'Transacciones':
+                            mainContainer.innerHTML = generateTransactionsView();
+                            break;
+                        case 'Facturas':
+                            mainContainer.innerHTML = generateInvoicesView();
+                            break;
+                        case 'Informes':
+                            mainContainer.innerHTML = generateReportsView();
+                            break;
+                        case 'Clientes':
+                            mainContainer.innerHTML = generateClientsView();
+                            break;
+                        case 'Proveedores':
+                            mainContainer.innerHTML = generateSuppliersView();
+                            break;
+                        case 'Configuración':
+                            mainContainer.innerHTML = generateSettingsView();
+                            break;
+                        default:
+                            mainContainer.innerHTML = dashboardContent;
+                    }
+                    
+                    mainContainer.style.opacity = '1';
+                    
+                    // Inicializar eventos específicos para cada vista
+                    if (viewName === 'Transacciones') {
+                        initializeTransactionEvents();
+                    } else if (viewName === 'Facturas') {
+                        initializeInvoiceEvents();
+                    } else if (viewName === 'Cuentas') {
+                        initializeAccountEvents();
+                    }
+                }, 300);
+            }
+            
+            function initializeEvents() {
+                // Reinicializar gráfico
+                initializeChart();
+                
+                // Reinicializar eventos de tarjetas financieras
+                const financeCards = document.querySelectorAll('.finance-card');
+                financeCards.forEach(card => {
+                    card.addEventListener('click', function() {
+                        showDetailModal(this);
+                    });
+                });
+                
+                // Reinicializar eventos de filas de transacciones
+                const transactionRows = document.querySelectorAll('.transaction-table tbody tr');
+                transactionRows.forEach(row => {
+                    row.addEventListener('click', function() {
+                        showTransactionDetail(this);
+                    });
+                    row.style.cursor = 'pointer';
+                });
+                
+                // Reinicializar eventos de pestañas de gráficos
+                const chartTabs = document.querySelectorAll('.chart-tab');
+                chartTabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        chartTabs.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Cambiar el gráfico según la pestaña seleccionada
+                        const chartType = this.textContent.trim();
+                        updateChart(chartType);
+                    });
+                });
+                
+                // Reinicializar botón "Ver Todas"
+                const viewAllBtn = document.querySelector('.transactions-header .btn');
+                if (viewAllBtn) {
+                    viewAllBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        showAllTransactions();
+                    });
+                }
+            }
+            
+            // Funciones para generar vistas
+            function generateAccountsView() {
+                return `
+                    <div class="app-header">
+                        <h2>Cuentas Bancarias</h2>
+                        <div class="user-profile">
+                            <span>Admin</span>
+                            <div class="user-avatar">A</div>
+                        </div>
+                    </div>
+                    
+                    <div class="accounts-container">
+                        <div class="accounts-header" style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                            <h3>Mis Cuentas</h3>
+                            <button class="btn btn-primary" style="background-color: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 4px; border: none; cursor: pointer;">+ Nueva Cuenta</button>
+                        </div>
+                        
+                        <div class="accounts-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                            <div class="account-card" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm); cursor: pointer;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                    <div style="font-weight: 600; color: var(--dark-color);">Cuenta Principal</div>
+                                    <div style="color: var(--gray-color);">Banco Nacional</div>
+                                </div>
+                                <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">$34,567.89</div>
+                                <div style="color: var(--gray-color); font-size: 0.875rem;">**** **** **** 4589</div>
+                            </div>
+                            
+                            <div class="account-card" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm); cursor: pointer;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                    <div style="font-weight: 600; color: var(--dark-color);">Cuenta de Ahorros</div>
+                                    <div style="color: var(--gray-color);">Banco Comercial</div>
+                                </div>
+                                <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">$12,345.67</div>
+                                <div style="color: var(--gray-color); font-size: 0.875rem;">**** **** **** 7823</div>
+                            </div>
+                            
+                            <div class="account-card" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm); cursor: pointer;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                                    <div style="font-weight: 600; color: var(--dark-color);">Cuenta de Inversiones</div>
+                                    <div style="color: var(--gray-color);">Banco Internacional</div>
+                                </div>
+                                <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">$78,901.23</div>
+                                <div style="color: var(--gray-color); font-size: 0.875rem;">**** **** **** 1456</div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem;">
+                            <h3 style="margin-bottom: 1rem;">Movimientos Recientes</h3>
+                            <table class="transaction-table">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Descripción</th>
+                                        <th>Cuenta</th>
+                                        <th>Monto</th>
+                                        <th>Saldo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>18/06/2023</td>
+                                        <td>Transferencia Recibida</td>
+                                        <td>Cuenta Principal</td>
+                                        <td style="color: #16a34a;">+$1,500.00</td>
+                                        <td>$34,567.89</td>
+                                    </tr>
+                                    <tr>
+                                        <td>17/06/2023</td>
+                                        <td>Pago de Servicios</td>
+                                        <td>Cuenta Principal</td>
+                                        <td style="color: #dc2626;">-$250.00</td>
+                                        <td>$33,067.89</td>
+                                    </tr>
+                                    <tr>
+                                        <td>15/06/2023</td>
+                                        <td>Depósito</td>
+                                        <td>Cuenta de Ahorros</td>
+                                        <td style="color: #16a34a;">+$2,000.00</td>
+                                        <td>$12,345.67</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function generateTransactionsView() {
+                return `
+                    <div class="app-header">
+                        <h2>Transacciones</h2>
+                        <div class="user-profile">
+                            <span>Admin</span>
+                            <div class="user-avatar">A</div>
+                        </div>
+                    </div>
+                    
+                    <div class="transactions-filters" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="flex: 1;">
+                            <input type="text" placeholder="Buscar transacciones..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                        </div>
+                        <div>
+                            <select style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                <option>Todos los tipos</option>
+                                <option>Ingresos</option>
+                                <option>Gastos</option>
+                            </select>
+                        </div>
+                        <div>
+                            <select style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                <option>Todas las categorías</option>
+                                <option>Ventas</option>
+                                <option>Oficina</option>
+                                <option>Suministros</option>
+                                <option>Servicios</option>
+                                <option>Personal</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" style="background-color: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 4px; border: none; cursor: pointer;">+ Nueva Transacción</button>
+                    </div>
+                    
+                    <div class="transactions-list" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm);">
+                        <table class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Descripción</th>
+                                    <th>Categoría</th>
+                                    <th>Tipo</th>
+                                    <th>Monto</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>20/06/2023</td>
+                                    <td>Venta de Servicios Premium</td>
+                                    <td>Ventas</td>
+                                    <td><span class="transaction-type type-income">Ingreso</span></td>
+                                    <td>$4,200.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button class="edit-transaction" style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button class="delete-transaction" style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>18/06/2023</td>
+                                    <td>Compra de Equipos</td>
+                                    <td>Oficina</td>
+                                    <td><span class="transaction-type type-expense">Gasto</span></td>
+                                    <td>$1,800.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button class="edit-transaction" style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button class="delete-transaction" style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>15/06/2023</td>
+                                    <td>Pago de Cliente ABC</td>
+                                    <td>Ventas</td>
+                                    <td><span class="transaction-type type-income">Ingreso</span></td>
+                                    <td>$2,500.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button class="edit-transaction" style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button class="delete-transaction" style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>14/06/2023</td>
+                                    <td>Pago de Alquiler</td>
+                                    <td>Oficina</td>
+                                    <td><span class="transaction-type type-expense">Gasto</span></td>
+                                    <td>$1,200.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button class="edit-transaction" style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button class="delete-transaction" style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>12/06/2023</td>
+                                    <td>Factura Proveedor XYZ</td>
+                                    <td>Suministros</td>
+                                    <td><span class="transaction-type type-expense">Gasto</span></td>
+                                    <td>$850.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button class="edit-transaction" style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button class="delete-transaction" style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>10/06/2023</td>
+                                    <td>Pago de Cliente DEF</td>
+                                    <td>Servicios</td>
+                                    <td><span class="transaction-type type-income">Ingreso</span></td>
+                                    <td>$3,750.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button class="edit-transaction" style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button class="delete-transaction" style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>08/06/2023</td>
+                                    <td>Nómina Empleados</td>
+                                    <td>Personal</td>
+                                    <td><span class="transaction-type type-expense">Gasto</span></td>
+                                    <td>$5,400.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button class="edit-transaction" style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button class="delete-transaction" style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                            <div>Mostrando 1-7 de 24 transacciones</div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;"><i class="fas fa-chevron-left"></i></button>
+                                <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: var(--primary-color); color: white; cursor: pointer;">1</button>
+                                <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;">2</button>
+                                <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;">3</button>
+                                <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function generateInvoicesView() {
+                return `
+                    <div class="app-header">
+                        <h2>Facturas</h2>
+                        <div class="user-profile">
+                            <span>Admin</span>
+                            <div class="user-avatar">A</div>
+                        </div>
+                    </div>
+                    
+                    <div class="invoices-tabs" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div class="invoice-tab active" style="padding: 0.75rem 1.5rem; background-color: var(--primary-color); color: white; border-radius: 4px; cursor: pointer;">Emitidas</div>
+                        <div class="invoice-tab" style="padding: 0.75rem 1.5rem; background-color: #f1f5f9; border-radius: 4px; cursor: pointer;">Recibidas</div>
+                        <div class="invoice-tab" style="padding: 0.75rem 1.5rem; background-color: #f1f5f9; border-radius: 4px; cursor: pointer;">Pendientes</div>
+                        <div class="invoice-tab" style="padding: 0.75rem 1.5rem; background-color: #f1f5f9; border-radius: 4px; cursor: pointer;">Pagadas</div>
+                        <button class="btn btn-primary" style="margin-left: auto; background-color: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 4px; border: none; cursor: pointer;">+ Nueva Factura</button>
+                    </div>
+                    
+                    <div class="invoices-list" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm);">
+                        <table class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>Nº Factura</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha Emisión</th>
+                                    <th>Fecha Vencimiento</th>
+                                    <th>Estado</th>
+                                    <th>Monto</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>FAC-2023-001</td>
+                                    <td>Cliente ABC S.A.</td>
+                                    <td>20/06/2023</td>
+                                    <td>20/07/2023</td>
+                                    <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #fee2e2; color: #dc2626;">Pendiente</span></td>
+                                    <td>$4,200.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                            <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>FAC-2023-002</td>
+                                    <td>Empresa XYZ Ltda.</td>
+                                    <td>15/06/2023</td>
+                                    <td>15/07/2023</td>
+                                    <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #dcfce7; color: #16a34a;">Pagada</span></td>
+                                    <td>$2,500.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                            <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>FAC-2023-003</td>
+                                    <td>Corporación DEF</td>
+                                    <td>10/06/2023</td>
+                                    <td>10/07/2023</td>
+                                    <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #dcfce7; color: #16a34a;">Pagada</span></td>
+                                    <td>$3,750.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                            <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>FAC-2023-004</td>
+                                    <td>Industrias GHI</td>
+                                    <td>05/06/2023</td>
+                                    <td>05/07/2023</td>
+                                    <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #fee2e2; color: #dc2626;">Pendiente</span></td>
+                                    <td>$1,850.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                            <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                                                        <td>FAC-2023-005</td>
+                                    <td>Consultora JKL</td>
+                                    <td>01/06/2023</td>
+                                    <td>01/07/2023</td>
+                                    <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #fee2e2; color: #dc2626;">Pendiente</span></td>
+                                    <td>$950.00</td>
+                                    <td>
+                                        <div style="display: flex; gap: 0.5rem;">
+                                            <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                            <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                            <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                            <div>Mostrando 1-5 de 15 facturas</div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;"><i class="fas fa-chevron-left"></i></button>
+                                <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: var(--primary-color); color: white; cursor: pointer;">1</button>
+                                <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;">2</button>
+                                <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;">3</button>
+                                <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function generateReportsView() {
+                return `
+                    <div class="app-header">
+                        <h2>Informes Financieros</h2>
+                        <div class="user-profile">
+                            <span>Admin</span>
+                            <div class="user-avatar">A</div>
+                        </div>
+                    </div>
+                    
+                    <div class="reports-container">
+                        <div class="reports-filters" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                            <div>
+                                <select style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                    <option>Tipo de Informe</option>
+                                    <option>Balance General</option>
+                                    <option>Estado de Resultados</option>
+                                    <option>Flujo de Efectivo</option>
+                                    <option>Impuestos</option>
+                                    <option>Ventas</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                    <option>Periodo</option>
+                                    <option>Este Mes</option>
+                                    <option>Último Trimestre</option>
+                                    <option>Este Año</option>
+                                    <option>Año Anterior</option>
+                                    <option>Personalizado</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" style="background-color: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 4px; border: none; cursor: pointer;">Generar Informe</button>
+                        </div>
+                        
+                        <div class="reports-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+                            <div class="report-card" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm); cursor: pointer;">
+                                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background-color: #e0f2fe; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                        <i class="fas fa-file-alt" style="color: var(--primary-color);"></i>
+                                    </div>
+                                    <div style="font-weight: 600; color: var(--dark-color);">Balance General</div>
+                                </div>
+                                <div style="color: var(--gray-color); font-size: 0.875rem; margin-bottom: 1rem;">Último informe generado: 15/06/2023</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: var(--primary-color); font-weight: 500;">Ver Informe</span>
+                                    <i class="fas fa-arrow-right" style="color: var(--primary-color);"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="report-card" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm); cursor: pointer;">
+                                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background-color: #e0f2fe; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                        <i class="fas fa-chart-line" style="color: var(--primary-color);"></i>
+                                    </div>
+                                    <div style="font-weight: 600; color: var(--dark-color);">Estado de Resultados</div>
+                                </div>
+                                <div style="color: var(--gray-color); font-size: 0.875rem; margin-bottom: 1rem;">Último informe generado: 10/06/2023</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: var(--primary-color); font-weight: 500;">Ver Informe</span>
+                                    <i class="fas fa-arrow-right" style="color: var(--primary-color);"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="report-card" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm); cursor: pointer;">
+                                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background-color: #e0f2fe; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                        <i class="fas fa-money-bill-wave" style="color: var(--primary-color);"></i>
+                                    </div>
+                                    <div style="font-weight: 600; color: var(--dark-color);">Flujo de Efectivo</div>
+                                </div>
+                                <div style="color: var(--gray-color); font-size: 0.875rem; margin-bottom: 1rem;">Último informe generado: 05/06/2023</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: var(--primary-color); font-weight: 500;">Ver Informe</span>
+                                    <i class="fas fa-arrow-right" style="color: var(--primary-color);"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="report-card" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm); cursor: pointer;">
+                                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+                                    <div style="width: 40px; height: 40px; border-radius: 8px; background-color: #e0f2fe; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                        <i class="fas fa-percentage" style="color: var(--primary-color);"></i>
+                                    </div>
+                                    <div style="font-weight: 600; color: var(--dark-color);">Impuestos</div>
+                                </div>
+                                <div style="color: var(--gray-color); font-size: 0.875rem; margin-bottom: 1rem;">Último informe generado: 01/06/2023</div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: var(--primary-color); font-weight: 500;">Ver Informe</span>
+                                    <i class="fas fa-arrow-right" style="color: var(--primary-color);"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem;">
+                            <h3 style="margin-bottom: 1rem;">Informes Recientes</h3>
+                            <table class="transaction-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Tipo</th>
+                                        <th>Periodo</th>
+                                        <th>Fecha Generación</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Balance General Junio 2023</td>
+                                        <td>Balance General</td>
+                                        <td>Junio 2023</td>
+                                        <td>15/06/2023</td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-download"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Estado de Resultados Q2 2023</td>
+                                        <td>Estado de Resultados</td>
+                                        <td>Abr-Jun 2023</td>
+                                        <td>10/06/2023</td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-download"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Flujo de Efectivo Mayo 2023</td>
+                                        <td>Flujo de Efectivo</td>
+                                        <td>Mayo 2023</td>
+                                        <td>05/06/2023</td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-download"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function generateClientsView() {
+                return `
+                    <div class="app-header">
+                        <h2>Clientes</h2>
+                        <div class="user-profile">
+                            <span>Admin</span>
+                            <div class="user-avatar">A</div>
+                        </div>
+                    </div>
+                    
+                    <div class="clients-container">
+                        <div class="clients-header" style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                            <div style="flex: 1;">
+                                <input type="text" placeholder="Buscar clientes..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                            </div>
+                            <button class="btn btn-primary" style="background-color: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 4px; border: none; cursor: pointer; margin-left: 1rem;">+ Nuevo Cliente</button>
+                        </div>
+                        
+                        <div class="clients-list" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm);">
+                            <table class="transaction-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Empresa</th>
+                                        <th>Email</th>
+                                        <th>Teléfono</th>
+                                        <th>Saldo</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Juan Pérez</td>
+                                        <td>Cliente ABC S.A.</td>
+                                        <td>juan.perez@abc.com</td>
+                                        <td>+1 234 567 890</td>
+                                        <td>$4,200.00</td>
+                                        <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #dcfce7; color: #16a34a;">Activo</span></td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>María López</td>
+                                        <td>Empresa XYZ Ltda.</td>
+                                        <td>maria.lopez@xyz.com</td>
+                                        <td>+1 345 678 901</td>
+                                        <td>$0.00</td>
+                                        <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #dcfce7; color: #16a34a;">Activo</span></td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Carlos Rodríguez</td>
+                                        <td>Corporación DEF</td>
+                                        <td>carlos.rodriguez@def.com</td>
+                                        <td>+1 456 789 012</td>
+                                        <td>$0.00</td>
+                                        <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #dcfce7; color: #16a34a;">Activo</span></td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ana Martínez</td>
+                                        <td>Industrias GHI</td>
+                                        <td>ana.martinez@ghi.com</td>
+                                        <td>+1 567 890 123</td>
+                                        <td>$1,850.00</td>
+                                        <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #dcfce7; color: #16a34a;">Activo</span></td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Roberto Sánchez</td>
+                                        <td>Consultora JKL</td>
+                                        <td>roberto.sanchez@jkl.com</td>
+                                        <td>+1 678 901 234</td>
+                                        <td>$950.00</td>
+                                        <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #fee2e2; color: #dc2626;">Inactivo</span></td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                                <div>Mostrando 1-5 de 12 clientes</div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;"><i class="fas fa-chevron-left"></i></button>
+                                    <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: var(--primary-color); color: white; cursor: pointer;">1</button>
+                                    <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;">2</button>
+                                    <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;">3</button>
+                                    <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function generateSuppliersView() {
+                return `
+                    <div class="app-header">
+                        <h2>Proveedores</h2>
+                        <div class="user-profile">
+                            <span>Admin</span>
+                            <div class="user-avatar">A</div>
+                        </div>
+                    </div>
+                    
+                    <div class="suppliers-container">
+                        <div class="suppliers-header" style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+                            <div style="flex: 1;">
+                                <input type="text" placeholder="Buscar proveedores..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                            </div>
+                            <button class="btn btn-primary" style="background-color: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 4px; border: none; cursor: pointer; margin-left: 1rem;">+ Nuevo Proveedor</button>
+                        </div>
+                        
+                        <div class="suppliers-list" style="background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm);">
+                            <table class="transaction-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Empresa</th>
+                                        <th>Email</th>
+                                        <th>Teléfono</th>
+                                        <th>Saldo</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Pedro Gómez</td>
+                                        <td>Suministros XYZ</td>
+                                        <td>pedro.gomez@xyz.com</td>
+                                        <td>+1 234 567 890</td>
+                                        <td>$0.00</td>
+                                        <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #dcfce7; color: #16a34a;">Activo</span></td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Laura Torres</td>
+                                        <td>Equipos Industriales S.A.</td>
+                                        <td>laura.torres@equipos.com</td>
+                                        <td>+1 345 678 901</td>
+                                        <td>$1,800.00</td>
+                                        <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #dcfce7; color: #16a34a;">Activo</span></td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Miguel Fernández</td>
+                                        <td>Servicios Tecnológicos</td>
+                                        <td>miguel.fernandez@tecno.com</td>
+                                        <td>+1 456 789 012</td>
+                                        <td>$0.00</td>
+                                        <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #dcfce7; color: #16a34a;">Activo</span></td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                                                            <td>Sofía Ramírez</td>
+                                        <td>Materiales de Oficina</td>
+                                        <td>sofia.ramirez@materiales.com</td>
+                                        <td>+1 567 890 123</td>
+                                        <td>$850.00</td>
+                                        <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #dcfce7; color: #16a34a;">Activo</span></td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Javier Morales</td>
+                                        <td>Distribuidora MNO</td>
+                                        <td>javier.morales@mno.com</td>
+                                        <td>+1 678 901 234</td>
+                                        <td>$1,200.00</td>
+                                        <td><span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 500; background-color: #fee2e2; color: #dc2626;">Inactivo</span></td>
+                                        <td>
+                                            <div style="display: flex; gap: 0.5rem;">
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-eye"></i></button>
+                                                <button style="background: none; border: none; color: var(--primary-color); cursor: pointer;"><i class="fas fa-edit"></i></button>
+                                                <button style="background: none; border: none; color: #dc2626; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                                <div>Mostrando 1-5 de 10 proveedores</div>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;"><i class="fas fa-chevron-left"></i></button>
+                                    <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: var(--primary-color); color: white; cursor: pointer;">1</button>
+                                    <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;">2</button>
+                                    <button style="width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; border: 1px solid var(--border-color); background: none; cursor: pointer;"><i class="fas fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function generateSettingsView() {
+                return `
+                    <div class="app-header">
+                        <h2>Configuración</h2>
+                        <div class="user-profile">
+                            <span>Admin</span>
+                            <div class="user-avatar">A</div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-container">
+                        <div class="settings-sidebar" style="width: 250px; background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm);">
+                            <div style="margin-bottom: 1.5rem; font-weight: 600; color: var(--gray-color);">CONFIGURACIÓN</div>
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="padding: 0.75rem; background-color: var(--primary-color); color: white; border-radius: 4px; margin-bottom: 0.5rem; cursor: pointer;">Perfil de Empresa</li>
+                                <li style="padding: 0.75rem; color: var(--dark-color); margin-bottom: 0.5rem; cursor: pointer;">Usuarios y Permisos</li>
+                                <li style="padding: 0.75rem; color: var(--dark-color); margin-bottom: 0.5rem; cursor: pointer;">Impuestos</li>
+                                <li style="padding: 0.75rem; color: var(--dark-color); margin-bottom: 0.5rem; cursor: pointer;">Monedas</li>
+                                <li style="padding: 0.75rem; color: var(--dark-color); margin-bottom: 0.5rem; cursor: pointer;">Métodos de Pago</li>
+                                <li style="padding: 0.75rem; color: var(--dark-color); margin-bottom: 0.5rem; cursor: pointer;">Categorías</li>
+                                <li style="padding: 0.75rem; color: var(--dark-color); margin-bottom: 0.5rem; cursor: pointer;">Plantillas</li>
+                                <li style="padding: 0.75rem; color: var(--dark-color); margin-bottom: 0.5rem; cursor: pointer;">Copias de Seguridad</li>
+                                <li style="padding: 0.75rem; color: var(--dark-color); margin-bottom: 0.5rem; cursor: pointer;">Integraciones</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="settings-content" style="flex: 1; margin-left: 1.5rem; background-color: white; border-radius: var(--border-radius); padding: 1.5rem; box-shadow: var(--shadow-sm);">
+                            <h3 style="margin-top: 0; margin-bottom: 1.5rem;">Perfil de Empresa</h3>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Nombre de la Empresa</label>
+                                    <input type="text" value="Mi Empresa S.A." style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Identificación Fiscal</label>
+                                    <input type="text" value="A12345678" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email</label>
+                                    <input type="email" value="contacto@miempresa.com" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Teléfono</label>
+                                    <input type="tel" value="+1 234 567 890" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Dirección</label>
+                                    <input type="text" value="Calle Principal 123" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Ciudad</label>
+                                    <input type="text" value="Ciudad Ejemplo" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">País</label>
+                                    <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                        <option>España</option>
+                                        <option>Estados Unidos</option>
+                                        <option>México</option>
+                                        <option>Argentina</option>
+                                        <option>Colombia</option>
+                                        <option>Chile</option>
+                                        <option>Perú</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Código Postal</label>
+                                    <input type="text" value="28001" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Moneda Principal</label>
+                                    <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                        <option>USD - Dólar Estadounidense</option>
+                                        <option>EUR - Euro</option>
+                                        <option>GBP - Libra Esterlina</option>
+                                        <option>JPY - Yen Japonés</option>
+                                        <option>MXN - Peso Mexicano</option>
+                                        <option>ARS - Peso Argentino</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Año Fiscal</label>
+                                    <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 4px;">
+                                        <option>Enero - Diciembre</option>
+                                        <option>Abril - Marzo</option>
+                                        <option>Julio - Junio</option>
+                                        <option>Octubre - Septiembre</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 2rem;">
+                                <h4 style="margin-bottom: 1rem;">Logo de la Empresa</h4>
+                                <div style="display: flex; align-items: center; gap: 1.5rem;">
+                                    <div style="width: 100px; height: 100px; background-color: #f1f5f9; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-image" style="font-size: 2rem; color: var(--gray-color);"></i>
+                                    </div>
+                                    <div>
+                                        <button style="background-color: var(--primary-color); color: white; padding: 0.5rem 1rem; border-radius: 4px; border: none; cursor: pointer; margin-bottom: 0.5rem;">Subir Logo</button>
+                                        <div style="font-size: 0.875rem; color: var(--gray-color);">Formatos permitidos: JPG, PNG, SVG. Tamaño máximo: 2MB</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
+                                <button style="background-color: var(--primary-color); color: white; padding: 0.75rem 1.5rem; border-radius: 4px; border: none; cursor: pointer;">Guardar Cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Función para inicializar los gráficos en el dashboard
+            function initCharts() {
+                // Gráfico de ingresos vs gastos
+                const incomeExpenseCtx = document.getElementById('income-expense-chart').getContext('2d');
+                const incomeExpenseChart = new Chart(incomeExpenseCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                        datasets: [
+                            {
+                                label: 'Ingresos',
+                                data: [12500, 15000, 13800, 14500, 16200, 18000],
+                                backgroundColor: '#3b82f6',
+                                borderRadius: 4
+                            },
+                            {
+                                label: 'Gastos',
+                                data: [8500, 9200, 8700, 9500, 10200, 11000],
+                                backgroundColor: '#ef4444',
+                                borderRadius: 4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    display: true,
+                                    color: '#e2e8f0'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // Gráfico de flujo de caja
+                const cashFlowCtx = document.getElementById('cash-flow-chart').getContext('2d');
+                const cashFlowChart = new Chart(cashFlowCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+                        datasets: [
+                            {
+                                label: 'Flujo de Caja',
+                                data: [4000, 5800, 5100, 5000, 6000, 7000],
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                tension: 0.4,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            title: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    display: true,
+                                    color: '#e2e8f0'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // Gráfico de categorías de gastos
+                const expenseCategoriesCtx = document.getElementById('expense-categories-chart').getContext('2d');
+                const expenseCategoriesChart = new Chart(expenseCategoriesCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Personal', 'Operaciones', 'Marketing', 'Tecnología', 'Otros'],
+                        datasets: [
+                            {
+                                data: [45, 25, 15, 10, 5],
+                                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#6b7280'],
+                                borderWidth: 0
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                            }
+                        },
+                        cutout: '70%'
+                    }
+                });
+            }
+            
+            // Función para manejar los modales
+            function initModals() {
+                // Modal para nueva transacción
+                const newTransactionBtn = document.querySelector('.new-transaction-btn');
+                const transactionModal = document.getElementById('transaction-modal');
+                const closeTransactionModal = document.querySelector('.close-transaction-modal');
+                
+                if (newTransactionBtn && transactionModal && closeTransactionModal) {
+                    newTransactionBtn.addEventListener('click', () => {
+                        transactionModal.style.display = 'flex';
+                    });
+                    
+                    closeTransactionModal.addEventListener('click', () => {
+                        transactionModal.style.display = 'none';
+                    });
+                    
+                    window.addEventListener('click', (e) => {
+                        if (e.target === transactionModal) {
+                            transactionModal.style.display = 'none';
+                        }
+                    });
+                }
+                
+                // Modal para editar transacción
+                const editTransactionBtns = document.querySelectorAll('.edit-transaction');
+                
+                if (editTransactionBtns.length > 0 && transactionModal) {
+                    editTransactionBtns.forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            // Aquí se cargarían los datos de la transacción a editar
+                            transactionModal.style.display = 'flex';
+                        });
+                    });
+                }
+                
+                // Modal para eliminar transacción
+                const deleteTransactionBtns = document.querySelectorAll('.delete-transaction');
+                const deleteModal = document.getElementById('delete-modal');
+                const closeDeleteModal = document.querySelector('.close-delete-modal');
+                const cancelDeleteBtn = document.querySelector('.cancel-delete-btn');
+                
+                if (deleteTransactionBtns.length > 0 && deleteModal && closeDeleteModal && cancelDeleteBtn) {
+                    deleteTransactionBtns.forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            deleteModal.style.display = 'flex';
+                        });
+                    });
+                    
+                    closeDeleteModal.addEventListener('click', () => {
+                        deleteModal.style.display = 'none';
+                    });
+                    
+                    cancelDeleteBtn.addEventListener('click', () => {
+                        deleteModal.style.display = 'none';
+                    });
+                    
+                    window.addEventListener('click', (e) => {
+                        if (e.target === deleteModal) {
+                            deleteModal.style.display = 'none';
+                        }
+                    });
+                }
+            }
+            
+            // Función para manejar las pestañas de facturas
+            function initInvoiceTabs() {
+                const invoiceTabs = document.querySelectorAll('.invoice-tab');
+                
+                if (invoiceTabs.length > 0) {
+                    invoiceTabs.forEach(tab => {
+                        tab.addEventListener('click', () => {
+                            // Eliminar la clase active de todas las pestañas
+                            invoiceTabs.forEach(t => t.classList.remove('active'));
+                            t.style.backgroundColor = '#f1f5f9';
+                            t.style.color = 'var(--dark-color)';
+                            
+                            // Agregar la clase active a la pestaña clickeada
+                            tab.classList.add('active');
+                            tab.style.backgroundColor = 'var(--primary-color)';
+                            tab.style.color = 'white';
+                            
+                            // Aquí se cargarían los datos correspondientes a la pestaña seleccionada
+                        });
+                    });
+                }
+            }
+            
+            // Función para manejar los filtros de transacciones
+            function initTransactionFilters() {
+                const dateFilter = document.getElementById('date-filter');
+                const typeFilter = document.getElementById('type-filter');
+                const categoryFilter = document.getElementById('category-filter');
+                
+                if (dateFilter && typeFilter && categoryFilter) {
+                    const applyFilters = () => {
+                        // Aquí se aplicarían los filtros a las transacciones
+                        console.log('Filtros aplicados:', {
+                            date: dateFilter.value,
+                            type: typeFilter.value,
+                            category: categoryFilter.value
+                        });
+                    };
+                    
+                    dateFilter.addEventListener('change', applyFilters);
+                    typeFilter.addEventListener('change', applyFilters);
+                    categoryFilter.addEventListener('change', applyFilters);
+                }
+            }
+            
+            // Función para inicializar todos los componentes interactivos
+            function initApp() {
+                // Inicializar la navegación
+                const navLinks = document.querySelectorAll('.nav-link');
+                const contentArea = document.querySelector('.content-area');
+                
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        
+                        // Eliminar la clase active de todos los enlaces
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        
+                        // Agregar la clase active al enlace clickeado
+                        link.classList.add('active');
+                        
+                        // Cambiar el contenido según la sección seleccionada
+                        const section = link.getAttribute('data-section');
+                        
+                        switch (section) {
+                            case 'dashboard':
+                                contentArea.innerHTML = generateDashboardView();
+                                setTimeout(() => {
+                                    initCharts();
+                                }, 100);
+                                break;
+                            case 'transactions':
+                                contentArea.innerHTML = generateTransactionsView();
+                                setTimeout(() => {
+                                    initTransactionFilters();
+                                    initModals();
+                                }, 100);
+                                break;
+                            case 'invoices':
+                                contentArea.innerHTML = generateInvoicesView();
+                                setTimeout(() => {
+                                    initInvoiceTabs();
+                                }, 100);
+                                break;
+                            case 'reports':
+                                contentArea.innerHTML = generateReportsView();
+                                break;
+                            case 'clients':
+                                contentArea.innerHTML = generateClientsView();
+                                break;
+                            case 'suppliers':
+                                contentArea.innerHTML = generateSuppliersView();
+                                break;
+                            case 'settings':
+                                contentArea.innerHTML = generateSettingsView();
+                                break;
+                            default:
+                                contentArea.innerHTML = generateDashboardView();
+                                setTimeout(() => {
+                                    initCharts();
+                                }, 100);
+                        }
+                    });
+                });
+                
+                // Inicializar la vista del dashboard por defecto
+                contentArea.innerHTML = generateDashboardView();
+                setTimeout(() => {
+                    initCharts();
+                }, 100);
+                
+                // Inicializar el modo oscuro
+                const darkModeToggle = document.getElementById('dark-mode-toggle');
+                const body = document.body;
+                
+                if (darkModeToggle) {
+                    darkModeToggle.addEventListener('click', () => {
+                        body.classList.toggle('dark-mode');
+                        
+                        if (body.classList.contains('dark-mode')) {
+                            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                            localStorage.setItem('darkMode', 'enabled');
+                        } else {
+                            darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                            localStorage.setItem('darkMode', 'disabled');
+                        }
+                        
+                        // Reinicializar los gráficos para que se adapten al nuevo tema
+                        if (document.getElementById('income-expense-chart')) {
+                            setTimeout(() => {
+                                initCharts();
+                            }, 100);
+                        }
+                    });
+                    
+                    // Verificar si el modo oscuro estaba activado anteriormente
+                    if (localStorage.getItem('darkMode') === 'enabled') {
+                        body.classList.add('dark-mode');
+                        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                    }
+                }
+            }
+        })    
+        // Inicializar la aplicación cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

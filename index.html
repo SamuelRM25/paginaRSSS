@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RS SOLUTION - Desarrollo de Software a Medida</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Añadimos AOS para animaciones al scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Añadimos Particles.js para efectos de fondo -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <!-- Fondo de partículas para efecto futurista -->
+    <div id="particles-js" class="particles-container"></div>
+
+    <!-- Header y Navegación con diseño mejorado -->
+    <header class="glass-effect">
+        <div class="container">
+            <div class="logo">
+                <h1><span class="gradient-text">RS</span><span>SOLUTION</span></h1>
+            </div>
+            <nav>
+                <ul class="menu">
+                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
+                    <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                    <li><a href="#tecnologias" class="nav-link">Tecnologías</a></li>
+                    <li><a href="#proyectos" class="nav-link">Proyectos</a></li>
+                    <li><a href="#dispositivos" class="nav-link">Dispositivos</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sección Hero con animaciones y estilo futurista -->
+    <section id="inicio" class="hero">
+        <div class="container">
+            <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
+                <h1 class="gradient-text">Soluciones de Software Innovadoras</h1>
+                <h2>Transformamos ideas en tecnología</h2>
+                <p>Desarrollamos software a medida para impulsar el crecimiento de tu negocio</p>
+                <div class="hero-buttons">
+                    <a href="#contacto" class="btn btn-primary pulse-effect">Solicitar Presupuesto</a>
+                    <a href="#servicios" class="btn btn-secondary">Nuestros Servicios</a>
+                </div>
+            </div>
+            <div class="hero-image" data-aos="fade-left" data-aos-duration="1000">
+                <img src="images/hero-image.svg" alt="RS SOLUTION Desarrollo" class="floating-animation">
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <div>
+                <span class="scroll-arrow"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Servicios con tarjetas mejoradas -->
+    <section id="servicios" class="services">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="gradient-text">Nuestros Servicios</h2>
+                <p>Soluciones tecnológicas adaptadas a tus necesidades</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Desarrollo Web</h3>
+                    <p>Sitios web y aplicaciones web responsivas con las últimas tecnologías.</p>
+                    <div class="card-hover-effect"></div>
+                </div>
+                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="service-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Apps Móviles</h3>
+                    <p>Aplicaciones nativas e híbridas para iOS y Android.</p>
+                    <div class="card-hover-effect"></div>
+                </div>
+                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="service-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Sistemas de Gestión</h3>
+                    <p>Software a medida para optimizar procesos empresariales.</p>
+                    <div class="card-hover-effect"></div>
+                </div>
+                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="service-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3>Cloud Computing</h3>
+                    <p>Soluciones en la nube escalables y seguras.</p>
+                    <div class="card-hover-effect"></div>
+                </div>
+                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="service-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Inteligencia Artificial</h3>
+                    <p>Implementación de IA y machine learning en tus proyectos.</p>
+                    <div class="card-hover-effect"></div>
+                </div>
+                <div class="service-card glass-card" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Ciberseguridad</h3>
+                    <p>Protección de datos y sistemas contra amenazas digitales.</p>
+                    <div class="card-hover-effect"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Tecnologías con diseño mejorado -->
+    <section id="tecnologias" class="technologies">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="gradient-text">Tecnologías</h2>
+                <p>Trabajamos con las herramientas más avanzadas del mercado</p>
+            </div>
+            <div class="tech-container">
+                <div class="tech-category" data-aos="fade-up" data-aos-delay="100">
+                    <h3>Frontend</h3>
+                    <div class="tech-icons">
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" class="tech-logo-animation"><span>HTML5</span></div>
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" class="tech-logo-animation"><span>CSS3</span></div>
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="tech-logo-animation"><span>JavaScript</span></div>
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="tech-logo-animation"><span>React</span></div>
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js" class="tech-logo-animation"><span>Vue.js</span></div>
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular" class="tech-logo-animation"><span>Angular</span></div>
+                    </div>
+                </div>
+                <!-- Resto de categorías de tecnologías con el mismo patrón -->
+                <div class="tech-category" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Backend</h3>
+                    <div class="tech-icons">
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" class="tech-logo-animation"><span>Node.js</span></div>
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="tech-logo-animation"><span>Python</span></div>
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" class="tech-logo-animation"><span>Java</span></div>
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" class="tech-logo-animation"><span>PHP</span></div>
+                        <div class="tech-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg" alt=".NET" class="tech-logo-animation"><span>.NET</span></div>
+                    </div>
+                </div>
+                <!-- ... resto de las categorías ... -->
+            </div>
+        </div>
+        <div class="tech-background-effect"></div>
+    </section>
+
+    <!-- Sección Proyectos con efectos de hover mejorados -->
+    <section id="proyectos" class="projects">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="gradient-text">Proyectos Destacados</h2>
+                <p>Soluciones que hemos desarrollado para nuestros clientes</p>
+            </div>
+            <div class="project-filters" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="web">Web</button>
+                <button class="filter-btn" data-filter="mobile">Móvil</button>
+                <button class="filter-btn" data-filter="desktop">Escritorio</button>
+            </div>
+            <div class="projects-grid">
+                <!-- Project card 1 -->
+                <div class="project-card modern-card" data-category="web" data-aos="fade-up" data-aos-delay="100">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Sistema de Gestión Empresarial">
+                        <div class="project-overlay">
+                            <div class="project-tech">
+                                <span>React</span>
+                                <span>Node.js</span>
+                                <span>MongoDB</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Sistema de Gestión Empresarial</h3>
+                        <p>Plataforma web para administración de recursos, inventario y facturación.</p>
+                        <a href="demos/web-gestion/index.html" class="btn btn-outline">Ver Demo</a>
+                    </div>
+                </div>
+                
+                <!-- Project card 2 -->
+                <div class="project-card modern-card" data-category="mobile" data-aos="fade-up" data-aos-delay="200">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Aplicación de Delivery">
+                        <div class="project-overlay">
+                            <div class="project-tech">
+                                <span>Flutter</span>
+                                <span>Firebase</span>
+                                <span>Google Maps API</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Aplicación de Delivery</h3>
+                        <p>App móvil para gestión de pedidos y seguimiento en tiempo real.</p>
+                        <a href="demos/app-delivery/index.html" class="btn btn-outline">Ver Demo</a>
+                    </div>
+                </div>
+                
+                <!-- Project card 3 -->
+                <div class="project-card modern-card" data-category="desktop" data-aos="fade-up" data-aos-delay="300">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Software de Análisis de Datos">
+                        <div class="project-overlay">
+                            <div class="project-tech">
+                                <span>Python</span>
+                                <span>Electron</span>
+                                <span>TensorFlow</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Software de Análisis de Datos</h3>
+                        <p>Herramienta de escritorio para análisis estadístico y visualización de datos.</p>
+                        <a href="demos/data-analysis/index.html" class="btn btn-outline">Ver Demo</a>
+                    </div>
+                </div>
+            </div>
+            <div class="projects-cta" data-aos="zoom-in">
+                <a href="#contacto" class="btn btn-primary glow-effect">¿Tienes un proyecto en mente?</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Contacto con formulario mejorado -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="gradient-text">Contacto</h2>
+                <p>¿Listo para impulsar tu negocio con tecnología de vanguardia?</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info glass-card" data-aos="fade-right">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h3>Ubicación</h3>
+                            <p>Huehuetenango, Zona 12, Colonia Ramirez</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>Email</h3>
+                            <p>samuel.ramirez25prs@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h3>Teléfono</h3>
+                            <p>+502 4961-7032</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h3>Horario</h3>
+                            <p>Lunes a Viernes: 9:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="social-media">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form glass-card" data-aos="fade-left">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" id="name" name="name" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Tu email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Teléfono</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Tu teléfono">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Asunto</label>
+                            <input type="text" id="subject" name="subject" placeholder="Asunto del mensaje">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Tu mensaje" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary glow-effect">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dispositivos con animaciones mejoradas -->
+    <section id="dispositivos" class="devices">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="gradient-text">Dispositivos Compatibles</h2>
+                <p>Desarrollamos para múltiples plataformas y dispositivos</p>
+            </div>
+            <div class="devices-showcase">
+                <!-- Dispositivos con animaciones -->
+                <div class="device" data-aos="fade-up" data-aos-delay="100">
+                    <div class="device-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                    <h3>Desktop</h3>
+                    <p>Aplicaciones de escritorio</p>
+                </div>
+                <div class="device" data-aos="fade-up" data-aos-delay="150">
+                    <div class="device-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>Laptop</h3>
+                    <p>Software optimizado</p>
+                </div>
+                <div class="device" data-aos="fade-up" data-aos-delay="200">
+                    <div class="device-icon">
+                        <i class="fas fa-tablet-alt"></i>
+                    </div>
+                    <h3>Tablet</h3>
+                    <p>Interfaces adaptativas</p>
+                </div>
+                <div class="device" data-aos="fade-up" data-aos-delay="250">
+                    <div class="device-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Smartphone</h3>
+                    <p>Apps nativas e híbridas</p>
+                </div>
+                <div class="device" data-aos="fade-up" data-aos-delay="300">
+                    <div class="device-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h3>Smart TV</h3>
+                    <p>Aplicaciones para TV</p>
+                </div>
+                <div class="device" data-aos="fade-up" data-aos-delay="350">
+                    <div class="device-icon">
+                        <i class="fas fa-watch"></i>
+                    </div>
+                    <h3>Smartwatch</h3>
+                    <p>Desarrollo wearable</p>
+                </div>
+            </div>
+            <div class="device-demo" data-aos="fade-up">
+                <div class="device-mockups">
+                    <div class="mockup mockup-desktop" data-aos="fade-right" data-aos-delay="100">
+                        <div class="mockup-screen">
+                            <img src="images/desktop-demo.jpg" alt="Demo Escritorio">
+                        </div>
+                    </div>
+                    <div class="mockup mockup-tablet" data-aos="fade-up" data-aos-delay="200">
+                        <div class="mockup-screen">
+                            <img src="images/tablet-demo.jpg" alt="Demo Tablet">
+                        </div>
+                    </div>
+                    <div class="mockup mockup-mobile" data-aos="fade-left" data-aos-delay="300">
+                        <div class="mockup-screen">
+                            <img src="images/mobile-demo.jpg" alt="Demo Móvil">
+                        </div>
+                    </div>
+                </div>
+                <div class="device-info" data-aos="fade-up" data-aos-delay="400">
+                    <h3>Diseño Responsivo</h3>
+                    <p>Todas nuestras soluciones se adaptan perfectamente a cualquier tamaño de pantalla, garantizando una experiencia de usuario óptima en todos los dispositivos.</p>
+                    <a href="ejemplos-responsive.html" class="btn btn-secondary">Ver Ejemplos</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer con diseño mejorado -->
+    <footer class="modern-footer">
+        <div class="container">
+            <!-- Contenido del footer -->
+            <!-- ... -->
+            <div class="footer-bottom">
+                <p>&copy; 2023 RS SOLUTION. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Inicializar AOS (Animate On Scroll)
+        AOS.init({
+            once: false,
+            mirror: true,
+            offset: 120,
+            easing: 'ease-out-cubic'
+        });
+
+        // Configuración de Particles.js
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#3498db"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": false,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#3498db",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        });
+    </script>
+</body>
+</html>
